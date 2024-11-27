@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Lab3</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="style.css"/>
+</h:head>
+<h:body>
+    <header>
+        <h:panelGroup>
+            <p>
+                <h1 id="about-me">Старостина Елена Петровна, P3219, ИСУ 414257. Вариант 19999</h1>
+            </p>
+        </h:panelGroup>
+    </header>
+    <main>
+        <h:panelGroup styleClass="nav-container">
+            <p class="nav-container"><h:link class="nav-link" type="button" outcome="toIndex" value="В начало"/></p>
+        </h:panelGroup>
+        <h:panelGroup styleClass="message-container">
+            <p>#{myBean.message}</p>
+        </h:panelGroup>
+        <h:panelGroup styleClass="image-container">
+            <h:outputText value="#{myBean.generateSvg()}" escape="false" />
+        </h:panelGroup>
+
+        <h:form id="mainForm">
+            <p class="form-block">
+                Выберите X
+                <h:outputLabel for="xMinus5" value="-5" />
+                <h:selectBooleanCheckbox id="xMinus5" value="#{myBean.selectedValues[-5]}" styleClass="x"/>
+                <h:outputLabel for="xMinus4" value="-4" />
+                <h:selectBooleanCheckbox id="xMinus4" value="#{myBean.selectedValues[-4]}" styleClass="x"/>
+                <h:outputLabel for="xMinus3" value="-3" />
+                <h:selectBooleanCheckbox id="xMinus3" value="#{myBean.selectedValues[-3]}" styleClass="x"/>
+                <h:outputLabel for="xMinus2" value="-2" />
+                <h:selectBooleanCheckbox id="xMinus2" value="#{myBean.selectedValues[-2]}" styleClass="x"/>
+                <h:outputLabel for="xMinus1" value="-1" />
+                <h:selectBooleanCheckbox id="xMinus1" value="#{myBean.selectedValues[-1]}" styleClass="x"/>
+                <h:outputLabel for="x0" value="0" />
+                <h:selectBooleanCheckbox id="x0" value="#{myBean.selectedValues[0]}" styleClass="x"/>
+                <h:outputLabel for="x1" value="1" />
+                <h:selectBooleanCheckbox id="x1" value="#{myBean.selectedValues[1]}" styleClass="x"/>
+                <h:outputLabel for="x2" value="2" />
+                <h:selectBooleanCheckbox id="x2" value="#{myBean.selectedValues[2]}" styleClass="x"/>
+                <h:outputLabel for="x3" value="3" />
+                <h:selectBooleanCheckbox id="x3" value="#{myBean.selectedValues[3]}" styleClass="x"/>
+                <h:outputLabel for="x4" value="4" />
+                <h:selectBooleanCheckbox id="x4" value="#{myBean.selectedValues[4]}" styleClass="x"/>
+                <h:outputLabel for="x5" value="5" />
+                <h:selectBooleanCheckbox id="x5" value="#{myBean.selectedValues[5]}" styleClass="x"/>
+            </p>
+            <p class="form-block">
+                Выберите Y
+                <h:inputText type="text" name="y" id="y" value="#{myBean.y}"/>
+            </p>
+            <p class="form-block">
+                Выберите R
+                <h:commandLink value="1" action="#{myBean.setR('1')}" styleClass="r"/>
+                <h:commandLink value="2" action="#{myBean.setR('2')}" styleClass="r"/>
+                <h:commandLink value="3" action="#{myBean.setR('3')}" styleClass="r"/>
+                <h:commandLink value="4" action="#{myBean.setR('4')}" styleClass="r"/>
+                <h:commandLink value="5" action="#{myBean.setR('5')}" styleClass="r"/>
+            </p>
+            <h:inputHidden id="hiddenR" value="#{myBean.r}" />
+            <h:inputHidden id="hiddenX" value="#{myBean.x}" />
+            <h:inputHidden id="hiddenY" value="#{myBean.svgY}" />
+
+            <p class="form-block">
+                Текущее значение R: #{myBean.r}
+            </p>
+            <p class="form-block"><h:commandButton id="submitButton" value="Отправить" action="#{myBean.submit}" /></p>
+        </h:form>
+
+        <h:dataTable value="#{myBean.res}" var="point" id="history">
+            <h:column>
+                <f:facet name="header">X</f:facet>
+                #{point.x}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Y</f:facet>
+                #{point.y}
+            </h:column>
+            <h:column>
+                <f:facet name="header">R</f:facet>
+                #{point.r}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Дата</f:facet>
+                #{point.date}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Результат</f:facet>
+                #{point.result ? 'Да' : 'Нет'}
+            </h:column>
+        </h:dataTable>
+
+    </main>
+    <footer>
+        <script type="text/javascript" src="main.js"></script>
+    </footer>
+</h:body>
+</html>
