@@ -87,8 +87,6 @@
             <arg value="--name-only"/>
             <redirector outputproperty="git.diff"/>
         </exec>
-        <echo message="${git.diff}"/>
-        <echo message="${excluded.files}"/>
         <condition property="has.changes">
             <length string="${git.diff}" trim="true" when="greater" length="0"/>
         </condition>
