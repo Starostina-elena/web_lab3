@@ -31,7 +31,7 @@ public class DBManager {
         }
 
     }
-    
+
     public int sendPoint(PointEntity point) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("INSERT INTO Points(x, y, r, result, date)" + "VALUES (?, ?, ?, ?, ?) RETURNING id");
         statement.setDouble(1, point.getX());
