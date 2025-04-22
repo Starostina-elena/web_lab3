@@ -58,11 +58,11 @@
             </p>
             <p class="form-block">
                 Выберите R
-                <h:commandLink value="1" action="#{myBean.setR('1')}" styleClass="r"/>
-                <h:commandLink value="2" action="#{myBean.setR('2')}" styleClass="r"/>
-                <h:commandLink value="3" action="#{myBean.setR('3')}" styleClass="r"/>
-                <h:commandLink value="4" action="#{myBean.setR('4')}" styleClass="r"/>
-                <h:commandLink value="5" action="#{myBean.setR('5')}" styleClass="r"/>
+                <h:commandLink immediate="true" value="1" action="#{myBean.setR('1')}" styleClass="r"/>
+                <h:commandLink immediate="true" value="2" action="#{myBean.setR('2')}" styleClass="r"/>
+                <h:commandLink immediate="true" value="3" action="#{myBean.setR('3')}" styleClass="r"/>
+                <h:commandLink immediate="true" value="4" action="#{myBean.setR('4')}" styleClass="r"/>
+                <h:commandLink immediate="true" value="5" action="#{myBean.setR('5')}" styleClass="r"/>
             </p>
             <h:inputHidden id="hiddenR" value="#{myBean.r}" />
             <h:inputHidden id="hiddenX" value="#{myBean.x}" />

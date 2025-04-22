@@ -7,10 +7,11 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator("YValidator")
-public class YValidator implements Validator {
+@FacesValidator("customYValidator")
+public class customYValidator implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
         if (value == null) {
             return; // Пропускаем валидацию, если значение пустое
         }

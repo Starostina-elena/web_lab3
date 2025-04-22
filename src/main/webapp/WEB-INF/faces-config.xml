@@ -1,11 +1,11 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 
 <faces-config
-        xmlns = "http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation = "http://java.sun.com/xml/ns/javaee
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
    http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
-        version = "2.3">
+        version="2.3">
 
 
     <navigation-rule>
@@ -23,5 +23,10 @@
             <to-view-id>main.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+
+    <validator>
+        <validator-id>customYValidator</validator-id>
+        <validator-class>org.lia.utils.customYValidator</validator-class>
+    </validator>
 
 </faces-config>

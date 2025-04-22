@@ -123,6 +123,7 @@ public class MyBean {
             }
         } catch (ClassCastException | NullPointerException | NumberFormatException e) {
             resultCheck = false;
+            e.printStackTrace();
         }
         if (resultCheck) {
             System.out.println(resultCheck + " " + selectedX + " " + selectedY + " " + selectedR);

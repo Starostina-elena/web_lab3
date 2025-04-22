@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="lab3" default="build">
+    <property name="lib.dir" value="lib"/>
+    <path id="project.classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+    <target name="compile" depends="clean">
+        <mkdir dir="build/WEB-INF/classes"/>
+        <javac destdir="build/WEB-INF/classes" includeantruntime="false" encoding="UTF-8">
+            <src path="src/main"/>
+            <classpath refid="project.classpath"/>
+        </javac>
+    </target>
+    <target name="build" depends="compile">
+        <copy todir="build">
+            <fileset dir="src/main/webapp"/>
+        </copy>
+        <copy todir="build/WEB-INF/lib">
+            <fileset dir="lib"/>
+        </copy>
+        <copy todir="build/WEB-INF/classes">
+            <fileset dir="src/main/resources"/>
+        </copy>
+        <jar destfile="build/lab3.jar" basedir="build" excludes="Test*.class">
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0"/>
+                <attribute name="Main-Class" value="NoClass"/>
+            </manifest>
+        </jar>
+        <war destfile="build/lab3.war" webxml="build/WEB-INF/web.xml" excludes="Test*.class">
+            <fileset dir="build"/>
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0"/>
+                <attribute name="Main-Class" value="NoClass"/>
+            </manifest>
+        </war>
+    </target>
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="test" depends="build">
+        <mkdir dir="build/test_classes"/>
+        <mkdir dir="build/test_reports"/>
+        <javac srcdir="src/test/java" destdir="build/test_classes" includeantruntime="false">
+            <classpath>
+                <pathelement location="build/classes"/>
+                <fileset dir="lib" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+        <junit printSummary="true">
+            <classpath>
+                <pathelement location="build/WEB-INF/classes"/>
+                <pathelement location="build/test_classes"/>
+                <fileset dir="lib" includes="**/*.jar"/>
+            </classpath>
+            <batchtest fork="yes" todir="build/test_reports">
+                <formatter type="plain"/>
+                <fileset dir="build/test_classes" includes="**/*Test*.class"/>
+            </batchtest>
+        </junit>
+    </target>
+    <target name="doc" depends="build">
+        <mkdir dir="build/META-INF"/>
+        <checksum algorithm="MD5" fileext=".md5" totalproperty="project.md5">
+            <fileset dir="build" includes="**/*.class" />
+        </checksum>
+        <checksum algorithm="SHA-1" fileext=".sha1" totalproperty="project.sha1">
+            <fileset dir="build" includes="**/*.class" />
+        </checksum>
+        <manifest file="build/META-INF/MANIFEST.MF">
+            <attribute name="Project-MD5" value="${project.md5}"/>
+            <attribute name="Project-SHA1" value="${project.sha1}"/>
+        </manifest>
+        <path id="compile.classpath">
+            <fileset dir="lib" includes="**/*.jar"/>
+        </path>
+        <javadoc destdir="build/javadoc" sourcepath="src/main" classpathref="compile.classpath" author="true" version="true" use="true" windowtitle="lab3 docs">
+            <fileset dir="src/main">
+                <include name="**/*.java"/>
+            </fileset>
+        </javadoc>
+    </target>
+    <target name="diff">
+        <loadfile property="excluded.files" srcFile="excluded-classes.properties" />
+        <exec executable="git" dir=".">
+            <arg value="diff"/>
+            <arg value="--name-only"/>
+            <redirector outputproperty="git.diff"/>
+        </exec>
+        <condition property="has.changes">
+            <length string="${git.diff}" trim="true" when="greater" length="0"/>
+        </condition>
+        <condition property="has.changes">
+            <length string="${git.diff}" trim="true" when="greater" length="0"/>
+        </condition>
+        <condition property="has.excluded.changes">
+            <contains string="${git.diff}" substring="${excluded.files}" />
+        </condition>
+        <fail unless="has.changes" message="No changes detected."/>
+        <fail if="has.excluded.changes" message="Excluded changes detected." />
+        <exec executable="git" dir=".">
+            <arg value="add"/>
+            <arg value="."/>
+        </exec>
+        <exec executable="git" dir=".">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="ant: commit with diff"/>
+        </exec>
+    </target>
+</project>
