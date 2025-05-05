@@ -113,7 +113,7 @@ public class MyBean {
             }
         }
 
-        
+
         try {
             if (selectedY == -100.0) {
                 selectedY = Double.parseDouble(y);
