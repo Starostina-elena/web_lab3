@@ -24,9 +24,4 @@
         </navigation-case>
     </navigation-rule>
 
-    <validator>
-        <validator-id>customYValidator</validator-id>
-        <validator-class>org.lia.utils.customYValidator</validator-class>
-    </validator>
-
 </faces-config>

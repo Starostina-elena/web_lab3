@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @ManagedBean
 @ApplicationScoped
 public class MyBean {
@@ -23,6 +24,7 @@ public class MyBean {
     DBManager dbManager;
     private String message;
     private final String messageIncorrectInput = "Некорректный ввод";
+    private MBean ceoBin;
 
     public MyBean() {
         x = "";
@@ -30,6 +32,10 @@ public class MyBean {
         try {
             res = dbManager.getPoints();
         } catch (SQLException ignore) {}
+        ceoBin = new MBean();
+        ceoBin.setCnt_total(res.size());
+        ceoBin.setCnt_not_in_area(res.stream().filter(pointEntity -> !pointEntity.getResult()).count());
+        ceoBin.makeMessage15();
     }
 
     public String getSvgY() {
@@ -38,6 +44,14 @@ public class MyBean {
 
     public void setSvgY(String svgY) {
         this.svgY = svgY;
+    }
+
+    public MBean getCeoBin() {
+        return ceoBin;
+    }
+
+    public void setCeoBin(MBean ceoBin) {
+        this.ceoBin = ceoBin;
     }
 
     public String getX() {
@@ -118,7 +132,7 @@ public class MyBean {
             if (selectedY == -100.0) {
                 selectedY = Double.parseDouble(y);
             }
-            selectedR = Double.parseDouble(r);
+            selectedR = Double.parseDouble(r + ".0");
             if (selectedY < -5 || selectedY > 5) {
                 resultCheck = false;
             }
@@ -127,7 +141,7 @@ public class MyBean {
             e.printStackTrace();
         }
         if (resultCheck) {
-            System.out.println(resultCheck + " " + selectedX + " " + selectedY + " " + selectedR);
+            System.out.println(resultCheck + " " + selectedX + " " + selectedY + " " + selectedR + " // " + r);
             PointEntity point = new PointEntity();
             point.setX((double)selectedX);
             point.setY(selectedY);
@@ -141,6 +155,11 @@ public class MyBean {
             try {
                 dbManager.sendPoint(point);
                 res = dbManager.getPoints();
+                ceoBin.setCnt_total(ceoBin.getCnt_total() + 1);
+                if (!result) {
+                    ceoBin.setCnt_not_in_area(ceoBin.getCnt_not_in_area() + 1);
+                }
+                ceoBin.makeMessage15();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

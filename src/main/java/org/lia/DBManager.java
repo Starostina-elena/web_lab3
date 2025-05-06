@@ -45,7 +45,7 @@ public class DBManager {
     }
 
     public ArrayList<PointEntity> getPoints() throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Points ORDER BY date DESC LIMIT 10;");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Points ORDER BY date DESC;");
         ResultSet result = statement.executeQuery();
 
         ArrayList<PointEntity> pointList = new ArrayList<>();
